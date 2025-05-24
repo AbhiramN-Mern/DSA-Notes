@@ -1,101 +1,197 @@
 class Node {
-    constructor(value) {
-      this.value = value;
-      this.next = null;
-    }
+  constructor(val) {
+    this.val = val;
+    this.next = null;
   }
-  
-  class SinglyLinkedList {
-    constructor() {
-      this.head = null;
-      this.length = 0;
+}
+
+class SinglyLinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.length = 0;
+  }
+
+  push(val) {
+    const newNode = new Node(val);
+    if (!this.head) {
+      this.head = this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
     }
-  
-    // Add to beginning
-    prepend(value) {
-      const newNode = new Node(value);
+    this.length++;
+  }
+
+  pop() {
+    if (!this.head) return null;
+    let current = this.head;
+    let newTail = current;
+
+    while (current.next) {
+      newTail = current;
+      current = current.next;
+    }
+
+    newTail.next = null;
+    this.tail = newTail;
+    this.length--;
+
+    if (this.length === 0) {
+      this.head = this.tail = null;
+    }
+
+    return current;
+  }
+
+  shift() {
+    if (!this.head) return null;
+    const currentHead = this.head;
+    this.head = this.head.next;
+    this.length--;
+    if (this.length === 0) this.tail = null;
+    return currentHead;
+  }
+
+  unshift(val) {
+    const newNode = new Node(val);
+    if (!this.head) {
+      this.head = this.tail = newNode;
+    } else {
       newNode.next = this.head;
       this.head = newNode;
-      this.length++;
     }
-  
-    // Add to end
-    append(value) {
-      const newNode = new Node(value);
-      if (!this.head) {
-        this.head = newNode;
-      } else {
-        let curr = this.head;
-        while (curr.next) {
-          curr = curr.next;
-        }
-        curr.next = newNode;
-      }
-      this.length++;
+    this.length++;
+  }
+
+  get(index) {
+    if (index < 0 || index >= this.length) return null;
+    let current = this.head;
+    let count = 0;
+    while (count < index) {
+      current = current.next;
+      count++;
     }
-    
-  
-    // Insert at index
-    insert(value, index) {
-      if (index < 0 || index > this.length) {
-        console.log("Index out of bounds");
-        return;
-      }
-  
-      if (index === 0) {
-        this.prepend(value);
-        return;
-      }
-  
-      const newNode = new Node(value);
-      let prev = this.head;
-      for (let i = 0; i < index - 1; i++) {
-        prev = prev.next;
-      }
-  
-      newNode.next = prev.next;
-      prev.next = newNode;
-      this.length++;
+    return current;
+  }
+
+  set(index, val) {
+    let found = this.get(index);
+    if (found) {
+      found.val = val;
+      return true;
     }
-  
-    // Remove at index
-    remove(index) {
-      if (index < 0 || index >= this.length || !this.head) {
-        console.log("Index out of bounds or list is empty");
-        return;
-      }
-  
-      if (index === 0) {
-        this.head = this.head.next;
-      } else {
-        let prev = this.head;
-        for (let i = 0; i < index - 1; i++) {
-          prev = prev.next;
-        }
-        prev.next = prev.next.next;
-      }
-      this.length--;
-    }
-  
-    // Print the list
-    print() {
-      let result = "";
-      let current = this.head;
-      while (current) {
-        result += current.value + " -> ";
-        current = current.next;
-      }
-      result += "null";
-      console.log(result);
+    return false;
+  }
+
+  insert(index, val) {
+    if (index < 0 || index > this.length) return false;
+    if (index === 0) return !!this.unshift(val);
+    if (index === this.length) return !!this.push(val);
+
+    const newNode = new Node(val);
+    const prev = this.get(index - 1);
+    newNode.next = prev.next;
+    prev.next = newNode;
+    this.length++;
+    return true;
+  }
+
+  remove(index) {
+    if (index < 0 || index >= this.length) return null;
+    if (index === 0) return this.shift();
+    if (index === this.length - 1) return this.pop();
+
+    const prev = this.get(index - 1);
+    const removed = prev.next;
+    prev.next = removed.next;
+    this.length--;
+    return removed;
+  }
+
+  reverse() {
+    let node = this.head;
+    this.head = this.tail;
+    this.tail = node;
+
+    let prev = null;
+    let next;
+
+    for (let i = 0; i < this.length; i++) {
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
     }
   }
-  
-  // Usage
-  const list = new SinglyLinkedList();
-  list.append(10);
-  list.append(20);
-  list.prepend(5);
-  list.insert(15, 2); // index 2
-  list.remove(1); // removes value 10
-  list.print(); // Output: 5 -> 15 -> 20 -> null
-  
+
+  largestVal() {
+    if (!this.head) return null;
+    let current = this.head;
+    let max = current.val;
+    while (current) {
+      if (current.val > max) {
+        max = current.val;
+      }
+      current = current.next;
+    }
+    return max;
+  }
+
+  sort() {
+    if (this.length < 2) return;
+
+    // Convert to array
+    let arr = [];
+    let current = this.head;
+    while (current) {
+      arr.push(current.val);
+      current = current.next;
+    }
+
+    // Sort array
+    arr.sort((a, b) => a - b);
+
+    // Rewrite list
+    current = this.head;
+    for (let i = 0; i < arr.length; i++) {
+      current.val = arr[i];
+      current = current.next;
+    }
+  }
+
+  findUnique() {
+    let set = new Set();
+    let current = this.head;
+    while (current) {
+      set.add(current.val);
+      current = current.next;
+    }
+    return [...set];
+  }
+
+  print() {
+    let arr = [];
+    let current = this.head;
+    while (current) {
+      arr.push(current.val);
+      current = current.next;
+    }
+    console.log(arr);
+  }
+}
+
+// Example usage:
+const list = new SinglyLinkedList();
+list.push(3);
+list.push(1);
+list.push(4);
+list.push(1);
+list.push(5);
+list.print(); // [3, 1, 4, 1, 5]
+console.log("Largest:", list.largestVal()); // 5
+console.log("Unique:", list.findUnique()); // [3, 1, 4, 5]
+list.sort();
+list.print(); // [1, 1, 3, 4, 5]
+list.reverse();
+list.print(); // [5, 4, 3, 1, 1]

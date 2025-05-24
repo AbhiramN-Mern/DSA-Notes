@@ -87,7 +87,7 @@ function fib(num) {
 
 
 //function to revers the value of a string...
-function  reverse(string) {
+function reverse(string) {
     if(string.length <= 1) return string;
     return reverse(string.slice(1)) + string[0];
 }

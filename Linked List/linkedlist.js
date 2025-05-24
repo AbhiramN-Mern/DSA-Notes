@@ -169,16 +169,18 @@ class SinglyLinkedList {
     }
     return [...set];
   }
-
+  
   print() {
-    let arr = [];
     let current = this.head;
+    let result = "";
     while (current) {
-      arr.push(current.val);
+      result += current.val + " -> ";
       current = current.next;
     }
-    console.log(arr);
+    result += "null";
+    console.log(result);
   }
+  
 }
 
 // Example usage:

@@ -32,3 +32,4 @@ class LinkedList{
 
 const list=new LinkedList()
 console.log(list.isEmpty())
+console.log();

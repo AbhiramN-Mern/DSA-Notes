@@ -1,9 +1,6 @@
-
-// Linked List in Javascript
-
 class Node {
-  constructor(data) {
-    this.data = data;
+  constructor(value) {
+    this.value = value;
     this.next = null;
   }
 }
@@ -13,25 +10,22 @@ class LinkedList {
     this.head = null;
   }
 
-  addFirst(data) {
-    const newNode = new Node(data);
+  addFirst(value) {
+    const newNode = new Node(value);
     newNode.next = this.head;
     this.head = newNode;
   }
 
-  addLast(data) {
-    const newNode = new Node(data);
-
+  addLast(value) {
+    const newNode = new Node(value);
     if (!this.head) {
       this.head = newNode;
       return;
     }
-
     let current = this.head;
     while (current.next) {
       current = current.next;
     }
-
     current.next = newNode;
   }
 
@@ -45,13 +39,13 @@ class LinkedList {
     return count;
   }
 
-  addAt(index, data) {
+  addAt(index, value) {
     if (index < 0 || index > this.size()) {
       console.error("Invalid Index");
       return;
     }
 
-    const newNode = new Node(data);
+    const newNode = new Node(value);
     if (index === 0) {
       newNode.next = this.head;
       this.head = newNode;
@@ -68,15 +62,15 @@ class LinkedList {
   }
 
   removeTop() {
-    if (!this.head) {
-      return;
-    }
-
+    if (!this.head) return;
     this.head = this.head.next;
   }
 
   removeLast() {
-    if (!this.head) {
+    if (!this.head) return;
+
+    if (!this.head.next) {
+      this.head = null;
       return;
     }
 
@@ -89,7 +83,7 @@ class LinkedList {
   }
 
   removeAt(index) {
-    if (index < 0 || index > this.size()) {
+    if (index < 0 || index >= this.size()) {
       console.error("Invalid Index");
       return;
     }
@@ -112,25 +106,63 @@ class LinkedList {
   print() {
     let current = this.head;
     while (current) {
-      console.log(current.data);
+      console.log(current.value);
       current = current.next;
     }
   }
+
+  toArray() {
+    const result = [];
+    let current = this.head;
+    while (current) {
+      result.push(current.value);
+      current = current.next;
+    }
+    return result;
+  }
+
+  reverse() {
+    let prev = null;
+    let current = this.head;
+
+    while (current) {
+      let nextNode = current.next;
+      current.next = prev;
+      prev = current;
+      current = nextNode;
+    }
+
+    this.head = prev;
+  }
+
+  findMiddle() {
+    if (!this.head) return null;
+
+    let slow = this.head;
+    let fast = this.head;
+
+    while (fast && fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    return slow.value;
+  }
 }
 
+// Usage Example
 const linkedlist = new LinkedList();
 
-linkedlist.addFirst(5);
-linkedlist.addFirst(3);
-linkedlist.addFirst(8);
-linkedlist.addLast(6);
+linkedlist.addFirst(5);      // 5
+linkedlist.addFirst(3);      // 3 -> 5
+linkedlist.addFirst(8);      // 8 -> 3 -> 5
+linkedlist.addLast(6);       // 8 -> 3 -> 5 -> 6
 
-linkedlist.removeTop();
-
-linkedlist.addAt(2, 8);
-
-linkedlist.removeLast();
-linkedlist.removeAt(2);
-
+console.log("Original list:");
 linkedlist.print();
-console.log("size = " + linkedlist.size());
+
+linkedlist.reverse();
+console.log("Reversed list:");
+linkedlist.print();
+
+console.log("Middle value:", linkedlist.findMiddle()); // Output depends on current list

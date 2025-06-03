@@ -2,50 +2,61 @@ class Node {
   constructor(data) {
     this.data = data;
     this.next = null;
-    this.prev = null; // <-- added
+    this.prev = null;
   }
 }
 
-class DoublyLinkedList {
+class CircularDoublyLinkedList {
   constructor() {
     this.head = null;
-    this.tail = null; // <-- added
+    this.tail = null;
   }
 
   addFirst(data) {
     const newNode = new Node(data);
-    newNode.next = this.head;
 
-    if (this.head) {
-      this.head.prev = newNode; // <-- added
+    if (!this.head) {
+      this.head = this.tail = newNode;
+      newNode.next = newNode.prev = newNode; // <-- make it circular
     } else {
-      this.tail = newNode; // <-- added (only node becomes tail too)
-    }
+      newNode.next = this.head;
+      newNode.prev = this.tail;
 
-    this.head = newNode;
+      this.head.prev = newNode;
+      this.tail.next = newNode;
+
+      this.head = newNode;
+    }
   }
 
   addLast(data) {
     const newNode = new Node(data);
 
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode; // <-- added
-      return;
-    }
+      this.head = this.tail = newNode;
+      newNode.next = newNode.prev = newNode; // <-- make it circular
+    } else {
+      newNode.prev = this.tail;
+      newNode.next = this.head;
 
-    this.tail.next = newNode; // <-- added
-    newNode.prev = this.tail; // <-- added
-    this.tail = newNode; // <-- added
+      this.tail.next = newNode;
+      this.head.prev = newNode;
+
+      this.tail = newNode;
+    }
   }
 
   size() {
-    let count = 0;
-    let current = this.head;
-    while (current) {
+    if (!this.head) return 0;
+
+    let count = 1;
+    let current = this.head.next;
+
+    while (current !== this.head) { // <-- stop when back at head
       count++;
       current = current.next;
     }
+
     return count;
   }
 
@@ -54,8 +65,6 @@ class DoublyLinkedList {
       console.error("Invalid Index");
       return;
     }
-
-    const newNode = new Node(data);
 
     if (index === 0) {
       this.addFirst(data); // <-- reuse addFirst
@@ -67,14 +76,17 @@ class DoublyLinkedList {
       return;
     }
 
+    const newNode = new Node(data);
     let current = this.head;
+
     for (let i = 0; i < index - 1; i++) {
       current = current.next;
     }
 
     newNode.next = current.next;
-    newNode.prev = current; // <-- added
-    current.next.prev = newNode; // <-- added
+    newNode.prev = current;
+
+    current.next.prev = newNode;
     current.next = newNode;
   }
 
@@ -82,28 +94,28 @@ class DoublyLinkedList {
     if (!this.head) return;
 
     if (this.head === this.tail) {
-      // <-- added
-      this.head = null;
-      this.tail = null;
+      this.head = this.tail = null; // <-- clear list
       return;
     }
 
     this.head = this.head.next;
-    this.head.prev = null; // <-- added
+
+    this.head.prev = this.tail;     // <-- re-link head.prev
+    this.tail.next = this.head;     // <-- re-link tail.next
   }
 
   removeLast() {
     if (!this.tail) return;
 
     if (this.head === this.tail) {
-      // <-- added
-      this.head = null;
-      this.tail = null;
+      this.head = this.tail = null; // <-- clear list
       return;
     }
 
-    this.tail = this.tail.prev; // <-- added
-    this.tail.next = null; // <-- added
+    this.tail = this.tail.prev;
+
+    this.tail.next = this.head;     // <-- re-link tail.next
+    this.head.prev = this.tail;     // <-- re-link head.prev
   }
 
   removeAt(index) {
@@ -127,23 +139,30 @@ class DoublyLinkedList {
       current = current.next;
     }
 
-    current.prev.next = current.next; // <-- updated
-    current.next.prev = current.prev; // <-- updated
+    current.prev.next = current.next;
+    current.next.prev = current.prev;
   }
 
   print() {
-    let current = this.head;
-    let str=""
-    while (current) {
-      str+=`${current.data}->`
-      current = current.next;
+    if (!this.head) {
+      console.log("Empty List");
+      return;
     }
-    console.log(str+" NULL")
+
+    let current = this.head;
+    let str = "";
+
+    do {
+      str += `${current.data}->`;
+      current = current.next;
+    } while (current !== this.head); // <-- stop when full circle
+
+    console.log(str + "HEAD");
   }
 }
 
 // Test
-const linkedlist = new DoublyLinkedList();
+const linkedlist = new CircularDoublyLinkedList();
 
 linkedlist.addFirst(5);
 linkedlist.addFirst(3);

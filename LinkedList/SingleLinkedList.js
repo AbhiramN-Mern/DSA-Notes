@@ -105,10 +105,12 @@ class LinkedList {
 
   print() {
     let current = this.head;
+    let str=""
     while (current) {
-      console.log(current.value);
+      str+=`${current.value}->`
       current = current.next;
     }
+    console.log(str+"NULL")
   }
 
   toArray() {

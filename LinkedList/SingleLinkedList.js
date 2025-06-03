@@ -151,8 +151,7 @@ class LinkedList {
 }
 
 // Usage Example
-const linkedlist = new LinkedList();
-
+const linkedlist = new LinkedList()
 linkedlist.addFirst(5);      // 5
 linkedlist.addFirst(3);      // 3 -> 5
 linkedlist.addFirst(8);      // 8 -> 3 -> 5

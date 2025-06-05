@@ -1,6 +1,6 @@
 class Node {
-  constructor(data) {
-    this.data = data;
+  constructor(value) {
+    this.value = value;
     this.next = null;
     this.prev = null;
   }
@@ -12,8 +12,8 @@ class CircularDoublyLinkedList {
     this.tail = null;
   }
 
-  addFirst(data) {
-    const newNode = new Node(data);
+  addFirst(value) {
+    const newNode = new Node(value);
 
     if (!this.head) {
       this.head = this.tail = newNode;
@@ -29,8 +29,8 @@ class CircularDoublyLinkedList {
     }
   }
 
-  addLast(data) {
-    const newNode = new Node(data);
+  addLast(value) {
+    const newNode = new Node(value);
 
     if (!this.head) {
       this.head = this.tail = newNode;
@@ -60,23 +60,23 @@ class CircularDoublyLinkedList {
     return count;
   }
 
-  addAt(index, data) {
+  addAt(index, value) {
     if (index < 0 || index > this.size()) {
       console.error("Invalid Index");
       return;
     }
 
     if (index === 0) {
-      this.addFirst(data); // <-- reuse addFirst
+      this.addFirst(value); // <-- reuse addFirst
       return;
     }
 
     if (index === this.size()) {
-      this.addLast(data); // <-- reuse addLast
+      this.addLast(value); // <-- reuse addLast
       return;
     }
 
-    const newNode = new Node(data);
+    const newNode = new Node(value);
     let current = this.head;
 
     for (let i = 0; i < index - 1; i++) {
@@ -153,7 +153,7 @@ class CircularDoublyLinkedList {
     let str = "";
 
     do {
-      str += `${current.data}->`;
+      str += `${current.value}->`;
       current = current.next;
     } while (current !== this.head); // <-- stop when full circle
 

@@ -110,3 +110,27 @@ function someRecursive(arr, val){
     if(val(arr[0])) return true;
     someRecursive(arr.slice(1),val);
 }
+
+
+
+//sum of elements in array
+function sum(arr){
+    if(arr.length==0)return null
+    return arr[0]+sum(arr.slice(1))
+}
+
+
+
+//sum of even numbres
+function sumEven(arr) {
+  if (arr.length === 0) return 0; // base case
+
+  const first = arr[0];
+  const restSum = sumEven(arr.slice(1));
+
+  if (first % 2 === 0) {
+    return first + restSum;
+  } else {
+    return restSum;
+  }
+}

@@ -1,6 +1,6 @@
 class Node {
-  constructor(data) {
-    this.data = data;
+  constructor(value) {
+    this.value = value;
     this.next = null;
     this.prev = null; // <-- added
   }
@@ -12,8 +12,8 @@ class DoublyLinkedList {
     this.tail = null; // <-- added
   }
 
-  addFirst(data) {
-    const newNode = new Node(data);
+  addFirst(value) {
+    const newNode = new Node(value);
     newNode.next = this.head;
 
     if (this.head) {
@@ -25,8 +25,8 @@ class DoublyLinkedList {
     this.head = newNode;
   }
 
-  addLast(data) {
-    const newNode = new Node(data);
+  addLast(value) {
+    const newNode = new Node(value);
 
     if (!this.head) {
       this.head = newNode;
@@ -49,21 +49,21 @@ class DoublyLinkedList {
     return count;
   }
 
-  addAt(index, data) {
+  addAt(index, value) {
     if (index < 0 || index > this.size()) {
       console.error("Invalid Index");
       return;
     }
 
-    const newNode = new Node(data);
+    const newNode = new Node(value);
 
     if (index === 0) {
-      this.addFirst(data); // <-- reuse addFirst
+      this.addFirst(value); // <-- reuse addFirst
       return;
     }
 
     if (index === this.size()) {
-      this.addLast(data); // <-- reuse addLast
+      this.addLast(value); // <-- reuse addLast
       return;
     }
 
@@ -133,12 +133,12 @@ class DoublyLinkedList {
 
   print() {
     let current = this.head;
-    let str=""
+    let str = ""
     while (current) {
-      str+=`${current.data}->`
+      str += `${current.value}->`
       current = current.next;
     }
-    console.log(str+" NULL")
+    console.log(str + " NULL")
   }
 }
 

@@ -136,6 +136,11 @@ class LinkedList {
 
     this.head = prev;
   }
+     toLinkedList(arr){
+        for(let value of arr){
+            this.AddLast(value)
+        }
+    }
 
   findMiddle() {
     if (!this.head) return null;

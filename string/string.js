@@ -20,7 +20,7 @@ function reverseWords(str) {
             }
             // Add space if not at the end
             if (i !== str.length) result += " ";
-            word = ""; // Reset word
+            word = ""; 
         } else {
             word += str[i];
         }

@@ -4,7 +4,7 @@ function factorial(n){
     
     return n*factorial(n-1)
 }
-console.log(factorial(4))
+// console.log(factorial(4))
 
 //2)Fibonacci
 function Fibonacci(n){
@@ -12,7 +12,7 @@ function Fibonacci(n){
     if(n==1)return 1
     return Fibonacci(n-1)+Fibonacci(n-2)
 }
-console.log(Fibonacci(5))
+// console.log(Fibonacci(5))
 
 //3) sumofdigits
 
@@ -21,7 +21,7 @@ function sumofdigits(n){
     if(n==0)return 0
     return (n%10)+sumofdigits(Math.floor(n/10))
 }
-console.log(sumofdigits(1234))
+// console.log(sumofdigits(1234))
 
 
 // factorial using common way...
@@ -134,3 +134,16 @@ function sumEven(arr) {
     return restSum;
   }
 }
+
+//RangeOFNumbers
+
+function rangeofnumbers(start,end){
+    if(end<start){
+        return []
+    }else{
+        const number=rangeofnumbers(start,end-1)
+        number.push(end)
+        return number
+    }
+}
+console.log(rangeofnumbers(1,4))

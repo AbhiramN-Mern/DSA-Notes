@@ -82,6 +82,38 @@ class LinkedList {
     current.next = null;
   }
 
+     removeByValue(value){
+       let current=this.head
+       if(!this.head)return
+       if(this.head&&this.head.value==value){
+           this.head=this.head.next
+           return
+       }
+       while(current.next&&current.next.value!=value){
+           current=current.next
+       }
+       if(current.next&&current.next.value==value){
+           current.next=current.next.next
+       }
+   }
+
+
+    removeByValueAll(value){
+       let current=this.head
+       if(!this.head)return
+       if(this.head&&this.head.value==value){
+           this.head=this.head.next
+           return
+       }
+    while(current&&current.next){
+       if(current.next&&current.next.value==value){
+           current.next=current.next.next
+       }else{
+           current=current.next
+       }
+    }
+   }
+
   removeAt(index) {
     if (index < 0 || index >= this.size()) {
       console.error("Invalid Index");
@@ -162,7 +194,8 @@ const linkedlist = new LinkedList()
 linkedlist.addFirst(5);      // 5
 linkedlist.addFirst(3);      // 3 -> 5
 linkedlist.addFirst(8);      // 8 -> 3 -> 5
-linkedlist.addLast(6);       // 8 -> 3 -> 5 -> 6
+linkedlist.addLast(6); 
+linkedlist.removeByValue(3)      // 8 -> 3 -> 5 -> 6
 
 console.log("Original list:");
 linkedlist.print();

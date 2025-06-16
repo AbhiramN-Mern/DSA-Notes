@@ -20,7 +20,7 @@ function reverseWords(str) {
             }
             // Add space if not at the end
             if (i !== str.length) result += " ";
-            word = ""; 
+            word = "";                              
         } else {
             word += str[i];
         }
@@ -41,3 +41,61 @@ function reverseString(str) {
 }
 
 console.log(reverseString("HELLO")); // Output: "OLLEH"
+
+
+//largest string
+
+let str="Hello Iam Abhiram from ksd"
+let largest=""
+let s=str.split(' ')
+console.log(s)
+for(let i=0;i<s.length;i++){
+    if(largest.length<s[i].length){
+        largest=s[i]
+    }
+}
+console.log(largest)
+
+//anagram
+function anagram(str1, str2) {
+
+    let s1 = str1.split('').sort().join('')
+    let s2 = str2.split('').sort().join('')
+    return s1 === s2
+}
+console.log(anagram('abhiram', 'kasargod'))
+
+//extract num From String
+
+
+function extract(str) {
+
+   let result = ''
+
+   for(let value of str) {
+    if(isNaN(value)) {
+        result+=value
+    }
+   }
+   return result
+}
+console.log(extract([1,2,3,4,'a', 'b'])) 
+
+//titleCase
+
+function titleCase(str) {
+
+  let result = []
+  let words = str.split(' ')
+
+  for(let word of words) {
+
+    let first = word.charAt(0).toUpperCase()
+    let rest = word.slice(1).toLowerCase()
+
+    result.push(first + rest)
+  }
+  return result.join(' ')
+}
+
+console.log(titleCase('abhi ram'))

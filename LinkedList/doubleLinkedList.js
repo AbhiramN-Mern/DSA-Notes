@@ -2,38 +2,33 @@ class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
-    this.prev = null; // <-- added
+    this.prev = null; // <-- added for DLL
   }
 }
 
-class DoublyLinkedList {
+class LinkedList {
   constructor() {
     this.head = null;
-    this.tail = null; // <-- added
+    this.tail = null; // <-- added for DLL
   }
 
-  addFirst(value) {
+    addFirst(value) {
     const newNode = new Node(value);
-    newNode.next = this.head;
-
-    if (this.head) {
-      this.head.prev = newNode; // <-- added
+    if (!this.head) {
+      this.head = this.tail = newNode; // <-- changed
     } else {
-      this.tail = newNode; // <-- added (only node becomes tail too)
+      newNode.next = this.head;
+      this.head.prev = newNode; // <-- added
+      this.head = newNode;
     }
-
-    this.head = newNode;
   }
 
   addLast(value) {
     const newNode = new Node(value);
-
     if (!this.head) {
-      this.head = newNode;
-      this.tail = newNode; // <-- added
+      this.head = this.tail = newNode; // <-- changed
       return;
     }
-
     this.tail.next = newNode; // <-- added
     newNode.prev = this.tail; // <-- added
     this.tail = newNode; // <-- added
@@ -56,12 +51,10 @@ class DoublyLinkedList {
     }
 
     const newNode = new Node(value);
-
     if (index === 0) {
       this.addFirst(value); // <-- reuse addFirst
       return;
     }
-
     if (index === this.size()) {
       this.addLast(value); // <-- reuse addLast
       return;
@@ -82,28 +75,67 @@ class DoublyLinkedList {
     if (!this.head) return;
 
     if (this.head === this.tail) {
-      // <-- added
-      this.head = null;
-      this.tail = null;
-      return;
+      this.head = this.tail = null; // <-- changed
+    } else {
+      this.head = this.head.next;
+      this.head.prev = null; // <-- added
     }
-
-    this.head = this.head.next;
-    this.head.prev = null; // <-- added
   }
 
   removeLast() {
     if (!this.tail) return;
 
     if (this.head === this.tail) {
-      // <-- added
-      this.head = null;
-      this.tail = null;
-      return;
+      this.head = this.tail = null; // <-- changed
+    } else {
+      this.tail = this.tail.prev; // <-- added
+      this.tail.next = null; // <-- added
     }
+  }
 
-    this.tail = this.tail.prev; // <-- added
-    this.tail.next = null; // <-- added
+  removeByValue(value) {
+    if (!this.head) return;
+
+    let current = this.head;
+
+    while (current) {
+      if (current.value === value) {
+        if (current === this.head) {
+          this.removeTop(); // <-- reuse
+        } else if (current === this.tail) {
+          this.removeLast(); // <-- reuse
+        } else {
+          current.prev.next = current.next; // <-- added
+          current.next.prev = current.prev; // <-- added
+        }
+        return;
+      }
+      current = current.next;
+    }
+  }
+
+  removeByValueAll(value) {
+    if (!this.head) return;
+
+    let current = this.head;
+
+    while (current) {
+      if (current.value === value) {
+        if (current === this.head) {
+          this.removeTop(); // <-- reuse
+          current = this.head;
+        } else if (current === this.tail) {
+          this.removeLast(); // <-- reuse
+          current = null;
+        } else {
+          current.prev.next = current.next; // <-- added
+          current.next.prev = current.prev; // <-- added
+          current = current.next;
+        }
+      } else {
+        current = current.next;
+      }
+    }
   }
 
   removeAt(index) {
@@ -113,12 +145,12 @@ class DoublyLinkedList {
     }
 
     if (index === 0) {
-      this.removeTop(); // <-- reuse removeTop
+      this.removeTop(); // <-- reuse
       return;
     }
 
     if (index === this.size() - 1) {
-      this.removeLast(); // <-- reuse removeLast
+      this.removeLast(); // <-- reuse
       return;
     }
 
@@ -127,35 +159,81 @@ class DoublyLinkedList {
       current = current.next;
     }
 
-    current.prev.next = current.next; // <-- updated
-    current.next.prev = current.prev; // <-- updated
+    current.prev.next = current.next; // <-- added
+    current.next.prev = current.prev; // <-- added
   }
 
   print() {
     let current = this.head;
-    let str = ""
+    let str = "";
     while (current) {
-      str += `${current.value}->`
+      str += `${current.value} <-> `;
       current = current.next;
     }
-    console.log(str + " NULL")
+    console.log(str + "NULL");
+  }
+
+  toArray() {
+    const result = [];
+    let current = this.head;
+    while (current) {
+      result.push(current.value);
+      current = current.next;
+    }
+    return result;
+  }
+
+  reverse() {
+    let current = this.head;
+    let temp = null;
+
+    while (current) {
+      temp = current.prev;
+      current.prev = current.next; // <-- swap prev and next
+      current.next = temp; // <-- swap next and prev
+      current = current.prev; // <-- move to next (which is previous)
+    }
+
+    if (temp) {
+      this.tail = this.head;
+      this.head = temp.prev; // <-- update head
+    }
+  }
+
+  toLinkedList(arr) {
+    for (let value of arr) {
+      this.addLast(value); // <-- fixed typo: AddLast -> addLast
+    }
+  }
+
+  findMiddle() {
+    if (!this.head) return null;
+
+    let slow = this.head;
+    let fast = this.head;
+
+    while (fast && fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    return slow.value;
   }
 }
 
-// Test
-const linkedlist = new DoublyLinkedList();
+// Usage Example
+const linkedlist = new LinkedList();
+linkedlist.addFirst(5);      // 5
+linkedlist.addFirst(3);      // 3 <-> 5
+linkedlist.addFirst(8);      // 8 <-> 3 <-> 5
+linkedlist.addLast(6);       // 8 <-> 3 <-> 5 <-> 6
+linkedlist.removeByValue(3); // removes 3
 
-linkedlist.addFirst(5);
-linkedlist.addFirst(3);
-linkedlist.addFirst(8);
-linkedlist.addLast(6);
-
-linkedlist.removeTop();
-
-linkedlist.addAt(2, 8);
-
-linkedlist.removeLast();
-linkedlist.removeAt(2);
-
+console.log("Original list:");
 linkedlist.print();
-console.log("size = " + linkedlist.size());
+
+linkedlist.reverse();
+console.log("Reversed list:");
+linkedlist.print();
+
+console.log("Middle value:", linkedlist.findMiddle());

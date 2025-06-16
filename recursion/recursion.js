@@ -114,6 +114,15 @@ function someRecursive(arr, val){
 
 
 //sum of elements in array
+
+function sum(arr,index=0){
+    if(arr.length==index)return 0
+    return arr[index]+sum(arr,index+1)
+}
+console.log(sum([1,2,3,4,5]))
+
+
+//////////////////////////////
 function sum(arr){
     if(arr.length==0)return null
     return arr[0]+sum(arr.slice(1))
@@ -147,3 +156,51 @@ function rangeofnumbers(start,end){
     }
 }
 console.log(rangeofnumbers(1,4))
+
+
+//Binary search uing recuaion 
+function binary(arr,target,left=0,right=arr.length-1){
+    if(left>right)return "null"
+    let mid=Math.floor((left+right)/2)
+    if(arr[mid]==target){
+        return mid
+    }else if(arr[mid]<target){
+        return binary(arr,target,mid+1,right)
+    }else{
+        return binary(arr,target,left,mid-1)
+    }
+}
+console.log(binary([5,7,9,10],7))
+
+
+//secondLargest
+
+function finds(arr,index=0,large=-Infinity ,second=-Infinity){
+    if(arr.length==index)return second
+    let current=arr[index]
+    if(current>large){
+        return finds(arr,index+1,current,large)
+    }else if(current>second&&current!=large){
+        return finds(arr,index+1,large,current)
+    }else{
+        return finds(arr,index+1,large,second)
+    }
+}
+
+console.log(finds([1,7,3,4,5,8,9]))
+
+//second small
+function findm(arr,index=0,first=Infinity,second=Infinity){
+if (arr.length == index) return second
+    let current=arr[index]
+    if (current<first){
+        return findm(arr,index+1,current,first)
+    }else if(current<second&&current!=first){
+        return findm(arr,index+1,first,current)
+    }else{
+        return findm(arr,index+1,first,second)
+
+    }
+}
+console.log(findm([7,4,3,5,8,9]))
+

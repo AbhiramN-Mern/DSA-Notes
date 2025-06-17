@@ -60,3 +60,21 @@ function findFirstOccurrence(arr, target) {
   return result;
 }
 console.log(findFirstOccurrence([1, 2, 4, 4, 4, 5], 4)); 
+
+
+
+function rotmin(arr){
+    let left=0
+    let right=arr.length-1
+    while(left<right){
+        let mid=Math.floor((left+right)/2)
+        if(arr[mid]<arr[right]){
+            right=mid
+        }else{
+            left=mid+1
+        }
+    }
+    return arr[right]
+}
+
+console.log(rotmin([5,10,15,20,25,30,11,12,13]))

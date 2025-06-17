@@ -82,37 +82,32 @@ class LinkedList {
     current.next = null;
   }
 
-     removeByValue(value){
-       let current=this.head
-       if(!this.head)return
-       if(this.head&&this.head.value==value){
-           this.head=this.head.next
-           return
-       }
-       while(current.next&&current.next.value!=value){
-           current=current.next
-       }
-       if(current.next&&current.next.value==value){
-           current.next=current.next.next
-       }
-   }
+      deletevalue(value){
+        if(!this.head)return 
+        let current=this.head
+        while(current.next){
+            if(current.next.value==value){
+                current.next=current.next.next
+                return
+            }
+            current=current.next
 
-
-    removeByValueAll(value){
-       let current=this.head
-       if(!this.head)return
-       if(this.head&&this.head.value==value){
-           this.head=this.head.next
-           return
-       }
-    while(current&&current.next){
-       if(current.next&&current.next.value==value){
-           current.next=current.next.next
-       }else{
-           current=current.next
-       }
+        }
     }
-   }
+
+
+    deletevalue(value){
+        if(!this.head)return 
+        let current=this.head
+        while(current.next){
+            if(current.next.value==value){
+                current.next=current.next.next
+            }else{
+            current=current.next
+
+        }
+    }
+    }
 
   removeAt(index) {
     if (index < 0 || index >= this.size()) {
@@ -134,6 +129,15 @@ class LinkedList {
       current.next = current.next.next;
     }
   }
+   sum(){
+        let current=this.head
+        let sum=0
+        while(current){
+            sum+=current.value
+            current=current.next
+        }
+        console.log(sum)
+    }
 
   print() {
     let current = this.head;
@@ -188,6 +192,18 @@ class LinkedList {
     return slow.value;
   }
 }
+  NthNode(n){
+        let current=this.head
+        if(n<0||n>=this.size()){
+            console.log("inalid index")
+            return 
+        }
+        for(let i=0;i<n;i++){
+            current=current.next
+        }
+        
+        return current.value
+    }
 
 // Usage Example
 const linkedlist = new LinkedList()

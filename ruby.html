@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruby Driving School Kanhangad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #dc2626;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #dc2626;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+            min-height: 100vh;
+        }
+
+        section:first-of-type {
+            padding-top: 0;
+        }
+
+        /* Home Section */
+        #home {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #dc2626;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3);
+        }
+
+        .features {
+            padding: 4rem 0;
+            background: #f9fafb;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Section */
+        #about {
+            background: #fff;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .stats {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .instructor-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        /* Pricing Section */
+        #pricing {
+            background: #f9fafb;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: #dc2626;
+        }
+
+        .pricing-card.featured {
+            border-color: #dc2626;
+            transform: scale(1.05);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #dc2626;
+            margin: 1rem 0;
+        }
+
+        .price-features {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .price-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        /* Reviews Section */
+        #reviews {
+            background: #fff;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer {
+            font-weight: 600;
+            color: #dc2626;
+            margin-top: 1rem;
+        }
+
+        /* Contact Section */
+        #contact {
+            background: #f9fafb;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .contact-form {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #dc2626;
+        }
+
+        .submit-btn {
+            background: #dc2626;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #991b1b;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #dc2626;
+            margin-right: 1rem;
+            width: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        /* Additional styles for single page layout */
+        .additional-services {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .overall-rating {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .map-container {
+            margin-top: 3rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">Ruby Driving School</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                <li><a href="#reviews" class="nav-link">Reviews</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="mobile-menu" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Learn to Drive with Confidence</h1>
+                <p>Professional driving lessons in Kanhangad with experienced instructors and modern vehicles</p>
+                <a href="#contact" class="cta-button">Book Your Lesson Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title text-center">Why Choose Ruby Driving School?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Modern Vehicles</h3>
+                    <p>Learn with our fleet of well-maintained, modern cars equipped with dual controls for safety</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3>Expert Instructors</h3>
+                    <p>Certified and experienced driving instructors with years of teaching experience</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>High Success Rate</h3>
+                    <p>Over 95% of our students pass their driving test on the first attempt</p>
+                </div>
+                 <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Modern Vehicles</h3>
+                    <p>Learn with our fleet of well-maintained, modern cars equipped with dual controls for safety</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👨‍🏫</div>
+                    <h3>Expert Instructors</h3>
+                    <p>Certified and experienced driving instructors with years of teaching experience</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>High Success Rate</h3>
+                    <p>Over 95% of our students pass their driving test on the first attempt</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h1 class="section-title text-center">About Ruby Driving School</h1>
+            <p class="section-subtitle text-center">Your trusted partner for safe and confident driving</p>
+
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Our Story</h3>
+                    <p>Established in 2010, Ruby Driving School has been serving the Kanhangad community for over 13 years. We started with a simple mission: to provide quality driving education that emphasizes safety, confidence, and skill development.</p>
+                    <p>Our school has grown from a single instructor to a team of certified professionals, helping thousands of students achieve their driving goals. We believe that learning to drive should be a positive, stress-free experience that prepares you for a lifetime of safe driving.</p>
+
+                    <h3>Our Values</h3>
+                    <ul style="margin-left: 2rem; margin-top: 1rem;">
+                        <li>Safety First - Every lesson prioritizes road safety</li>
+                        <li>Patient Instruction - We adapt to each student's learning pace</li>
+                        <li>Professional Excellence - Certified instructors with ongoing training</li>
+                        <li>Community Focus - Proud to serve Kanhangad and surrounding areas</li>
+                    </ul>
+                </div>
+
+                <div class="stats">
+                    <h3>Quick Facts</h3>
+                    <div class="stat-item">
+                        <span>Established</span>
+                        <span><strong>2010</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Students Trained</span>
+                        <span><strong>5000+</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Success Rate</span>
+                        <span><strong>95%</strong></span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Instructors</span>
+                        <span><strong>8</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>License Types We Offer</h3>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4>Two Wheeler (2W)</h4>
+                    <p>Motorcycle and scooter licenses for ages 16+</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Light Motor Vehicle (LMV)</h4>
+                    <p>Car licenses for personal vehicles</p>
+                </div>
+                <div class="feature-card">
+                    <h4>Heavy Motor Vehicle (HMV)</h4>
+                    <p>Truck and bus licenses for commercial driving</p>
+                </div>
+            </div>
+
+            <h3>Our Vehicles</h3>
+            <div class="about-grid">
+                <div>
+                    <h4>Training Cars</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>Maruti Swift Dzire (Petrol & Diesel)</li>
+                        <li>Hyundai i20</li>
+                        <li>Tata Nexon</li>
+                        <li>All vehicles equipped with dual controls</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Two Wheelers</h4>
+                    <ul style="margin-left: 2rem;">
+                        <li>Honda Activa 125</li>
+                        <li>Bajaj Pulsar 150</li>
+                        <li>TVS Apache RTR 160</li>
+                        <li>Hero Splendor Plus</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Meet Our Instructors</h3>
+            <div class="instructor-card">
+                <h4>Rajesh Kumar - Head Instructor</h4>
+                <p>15+ years experience, specializes in nervous students and advanced driving techniques. Certified RTO instructor with excellent track record.</p>
+            </div>
+            <div class="instructor-card">
+                <h4>Priya Nair - Female Instructor</h4>
+                <p>10+ years experience, preferred by female students. Patient teaching style with focus on building confidence.</p>
+            </div>
+            <div class="instructor-card">
+                <h4>Mohammed Salim - Two Wheeler Specialist</h4>
+                <p>12+ years experience in motorcycle training. Expert in both manual and automatic two-wheelers.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <div class="container">
+            <h1 class="section-title text-center">Driving Lesson Packages</h1>
+            <p class="section-subtitle text-center">Choose the package that best fits your learning needs</p>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Basic Package</h3>
+                    <div class="price">₹8,000</div>
+                    <p>10 Days Training</p>
+                    <ul class="price-features">
+                        <li>10 one-hour lessons</li>
+                        <li>Basic driving skills</li>
+                        <li>Traffic rules training</li>
+                        <li>Practice test preparation</li>
+                        <li>RTO test assistance</li>
+                        <li>Certificate of completion</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Choose This Package</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Standard Package</h3>
+                    <div class="price">₹12,000</div>
+                    <p>15 Days Training</p>
+                    <ul class="price-features">
+                        <li>15 one-hour lessons</li>
+                        <li>Comprehensive driving skills</li>
+                        <li>Highway driving practice</li>
+                        <li>Parking techniques</li>
+                        <li>Night driving training</li>
+                        <li>RTO test assistance</li>
+                        <li>2 mock tests included</li>
+                        <li>Certificate of completion</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Most Popular</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3>Premium Package</h3>
+                    <div class="price">₹18,000</div>
+                    <p>30 Days Training</p>
+                    <ul class="price-features">
+                        <li>30 one-hour lessons</li>
+                        <li>Advanced driving techniques</li>
+                        <li>Defensive driving course</li>
+                        <li>All weather conditions</li>
+                        <li>Multiple vehicle types</li>
+                        <li>Highway & city driving</li>
+                        <li>5 mock tests included</li>
+                        <li>Free refresher lesson</li>
+                        <li>Lifetime support</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Choose This Package</a>
+                </div>
+            </div>
+
+            <div class="additional-services">
+                <h3>Additional Services</h3>
+                <div class="about-grid">
+                    <div>
+                        <h4>Two Wheeler Training</h4>
+                        <ul style="margin-left: 2rem;">
+                            <li>10 Days Course - ₹4,000</li>
+                            <li>15 Days Course - ₹5,500</li>
+                            <li>Individual lessons - ₹300/hour</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Additional Options</h4>
+                        <ul style="margin-left: 2rem;">
+                            <li>Female instructor - ₹500 extra</li>
+                            <li>Home pickup/drop - ₹200 per lesson</li>
+                            <li>Weekend/evening classes - ₹300 extra</li>
+                            <li>Rush course completion - ₹1,000 extra</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <div class="container">
+            <h1 class="section-title text-center">What Our Students Say</h1>
+            <p class="section-subtitle text-center">Real testimonials from satisfied students</p>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Excellent driving school! Rajesh sir was very patient and helped me overcome my fear of driving. Passed my test on the first attempt. Highly recommended for anyone looking to learn driving in Kanhangad."</p>
+                    <div class="reviewer">- Aisha Mohammed</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Professional and well-organized driving school. The instructors are knowledgeable and the vehicles are well-maintained. The 15-day package was perfect for me. Great value for money!"</p>
+                    <div class="reviewer">- Ravi Krishnan</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"I was a nervous driver, but Priya madam made me feel comfortable and confident. The lessons were well-structured and I learned everything from basic driving to highway driving. Thank you Ruby Driving School!"</p>
+                    <div class="reviewer">- Meera Nair</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Best driving school in Kanhangad! Mohammed sir taught me two-wheeler driving and I felt completely prepared for the RTO test. The pricing is very reasonable compared to other schools."</p>
+                    <div class="reviewer">- Akshay Kumar</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"My daughter learned driving here and had a wonderful experience. The instructors are patient, professional, and prioritize safety. We're completely satisfied with the training quality."</p>
+                    <div class="reviewer">- Suresh Babu</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Took the premium package and it was worth every rupee. Comprehensive training covering all aspects of driving. The mock tests really helped me prepare for the actual RTO test. Highly recommend!"</p>
+                    <div class="reviewer">- Deepika Shetty</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Ruby Driving School exceeded my expectations. The instructors are skilled, vehicles are modern, and the overall experience was excellent. Learned both manual and automatic transmission driving."</p>
+                    <div class="reviewer">- Vishnu Pillai</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Flexible timing and professional approach. I was working full-time but they accommodated my schedule perfectly. Great communication and follow-up throughout the course. 5 stars!"</p>
+                    <div class="reviewer">- Kavya Menon</div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Started as a complete beginner and now I'm a confident driver. The step-by-step approach and practical training methods are excellent. Definitely the best driving school in the area."</p>
+                    <div class="reviewer">- Arjun Patel</div>
+                </div>
+            </div>
+
+            <div class="overall-rating">
+                <h3>Overall Rating</h3>
+                <div style="font-size: 2rem; color: #fbbf24; margin: 1rem 0;">★★★★★</div>
+                <p style="font-size: 1.2rem; font-weight: 600;">4.9/5 based on 500+ reviews</p>
+                <p>Join hundreds of satisfied students who learned to drive with confidence at Ruby Driving School</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h1 class="section-title text-center">Contact Us</h1>
+            <p class="section-subtitle text-center">Get in touch to book your driving lessons</p>
+
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <h3>Send us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="license">License Type</label>
+                            <select id="license" name="license">
+                                <option value="">Select License Type</option>
+                                <option value="two-wheeler">Two Wheeler</option>
+                                <option value="car">Car (LMV)</option>
+                                <option value="heavy">Heavy Vehicle</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Tell us about your requirements..."></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <strong>Address</strong><br>
+                            Ruby Driving School<br>
+                            Near Bus Stand, Main Road<br>
+                            Kanhangad, Kerala 671315
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <strong>Phone</strong><br>
+                            +91 9876543210<br>
+                            +91 8765432109
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">✉️</div>
+                        <div>
+                            <strong>Email</strong><br>
+                            info@rubydrivingschool.com<br>
+                            contact@rubydrivingschool.com
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div>
+                            <strong>Working Hours</strong><br>
+                            Mon - Sat: 7:00 AM - 7:00 PM<br>
+                            Sunday: 8:00 AM - 6:00 PM
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <h4>Emergency Contact</h4>
+                        <p>For urgent queries: +91 9988776655</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Maps Embed -->
+            <div class="map-container">
+                <h3 class="text-center" style="margin-bottom: 1rem;">Our Location</h3>
+                <!-- Replace the src with your actual Google Maps embed link -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3902.325353599794!2d-75.1699679856707!3d39.95258397945295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6f9375f7e4113%3A0x1a05f5e7d4b9e3d2!2sPhiladelphia%20Museum%20of%20Art!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.getElementById('mobileMenu').addEventListener('click', function() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>

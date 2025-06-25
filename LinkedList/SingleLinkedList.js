@@ -191,7 +191,19 @@ class LinkedList {
 
     return slow.value;
   }
-}
+  removeMid(){
+        if(!this.head)return
+        let slow=this.head
+        let fast=this.head
+        let prev=null
+        while(fast&&fast.next){
+            prev=slow
+            slow=slow.next
+            fast=fast.next.next
+        }
+        prev.next=slow.next
+    }
+    
   NthNode(n){
         let current=this.head
         if(n<0||n>=this.size()){
@@ -204,7 +216,26 @@ class LinkedList {
         
         return current.value
     }
-
+      clear(){
+        this.head=null
+    }
+    sort(){
+        let arr=[]
+        let current=this.head
+        while(current){
+            arr.push(current.value)
+            current=current.next
+        }
+        this.clear()
+        arr.sort((a,b)=>a-b)
+        for(let value of arr){
+            this.last(value)
+        }
+    }
+    
+}
+ 
+  
 // Usage Example
 const linkedlist = new LinkedList()
 linkedlist.addFirst(5);      // 5

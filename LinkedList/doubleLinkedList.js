@@ -2,36 +2,36 @@ class Node {
   constructor(value) {
     this.value = value;
     this.next = null;
-    this.prev = null; // <-- added for DLL
+    this.prev = null;
   }
 }
 
-class LinkedList {
+class DoublyLinkedList {
   constructor() {
     this.head = null;
-    this.tail = null; // <-- added for DLL
+    this.tail = null;
   }
 
-    addFirst(value) {
+  addFirst(value) {
     const newNode = new Node(value);
     if (!this.head) {
-      this.head = this.tail = newNode; // <-- changed
+      this.head = this.tail = newNode;
     } else {
       newNode.next = this.head;
-      this.head.prev = newNode; // <-- added
+      this.head.prev = newNode;
       this.head = newNode;
     }
   }
 
   addLast(value) {
     const newNode = new Node(value);
-    if (!this.head) {
-      this.head = this.tail = newNode; // <-- changed
-      return;
+    if (!this.tail) {
+      this.head = this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      newNode.prev = this.tail;
+      this.tail = newNode;
     }
-    this.tail.next = newNode; // <-- added
-    newNode.prev = this.tail; // <-- added
-    this.tail = newNode; // <-- added
   }
 
   size() {
@@ -50,92 +50,41 @@ class LinkedList {
       return;
     }
 
-    const newNode = new Node(value);
-    if (index === 0) {
-      this.addFirst(value); // <-- reuse addFirst
-      return;
-    }
-    if (index === this.size()) {
-      this.addLast(value); // <-- reuse addLast
-      return;
-    }
+    if (index === 0) return this.addFirst(value);
+    if (index === this.size()) return this.addLast(value);
 
+    const node = new Node(value);
     let current = this.head;
-    for (let i = 0; i < index - 1; i++) {
+
+    for (let i = 0; i < index; i++) {
       current = current.next;
     }
-
-    newNode.next = current.next;
-    newNode.prev = current; // <-- added
-    current.next.prev = newNode; // <-- added
-    current.next = newNode;
+      node.next=current.next
+       node.prev=current
+       current.next.prev=node
+       current.next=node
+  
   }
 
+  
   removeTop() {
     if (!this.head) return;
-
     if (this.head === this.tail) {
-      this.head = this.tail = null; // <-- changed
-    } else {
-      this.head = this.head.next;
-      this.head.prev = null; // <-- added
+      this.head = this.tail = null;
+      return;
     }
+    this.head = this.head.next;
+    this.head.prev = null;
   }
 
   removeLast() {
     if (!this.tail) return;
-
     if (this.head === this.tail) {
-      this.head = this.tail = null; // <-- changed
-    } else {
-      this.tail = this.tail.prev; // <-- added
-      this.tail.next = null; // <-- added
+      this.head = this.tail = null;
+      return;
     }
-  }
-
-  removeByValue(value) {
-    if (!this.head) return;
-
-    let current = this.head;
-
-    while (current) {
-      if (current.value === value) {
-        if (current === this.head) {
-          this.removeTop(); // <-- reuse
-        } else if (current === this.tail) {
-          this.removeLast(); // <-- reuse
-        } else {
-          current.prev.next = current.next; // <-- added
-          current.next.prev = current.prev; // <-- added
-        }
-        return;
-      }
-      current = current.next;
-    }
-  }
-
-  removeByValueAll(value) {
-    if (!this.head) return;
-
-    let current = this.head;
-
-    while (current) {
-      if (current.value === value) {
-        if (current === this.head) {
-          this.removeTop(); // <-- reuse
-          current = this.head;
-        } else if (current === this.tail) {
-          this.removeLast(); // <-- reuse
-          current = null;
-        } else {
-          current.prev.next = current.next; // <-- added
-          current.next.prev = current.prev; // <-- added
-          current = current.next;
-        }
-      } else {
-        current = current.next;
-      }
-    }
+    this.tail = this.tail.prev;
+    this.tail.next = null;
   }
 
   removeAt(index) {
@@ -144,30 +93,51 @@ class LinkedList {
       return;
     }
 
-    if (index === 0) {
-      this.removeTop(); // <-- reuse
-      return;
-    }
-
-    if (index === this.size() - 1) {
-      this.removeLast(); // <-- reuse
-      return;
-    }
+    if (index === 0) return this.removeTop();
+    if (index === this.size() - 1) return this.removeLast();
 
     let current = this.head;
     for (let i = 0; i < index; i++) {
       current = current.next;
     }
 
-    current.prev.next = current.next; // <-- added
-    current.next.prev = current.prev; // <-- added
+    current.prev.next = current.next;
+    current.next.prev = current.prev;
+  }
+
+  deleteValue(value) {
+    if (!this.head) return;
+
+    let current = this.head;
+
+    while (current) {
+      if (current.value === value) {
+        if (current === this.head) return this.removeTop();
+        if (current === this.tail) return this.removeLast();
+
+        current.prev.next = current.next;
+        current.next.prev = current.prev;
+        return;
+      }
+      current = current.next;
+    }
+  }
+
+  sum() {
+    let current = this.head;
+    let sum = 0;
+    while (current) {
+      sum += current.value;
+      current = current.next;
+    }
+    console.log(sum);
   }
 
   print() {
     let current = this.head;
     let str = "";
     while (current) {
-      str += `${current.value} <-> `;
+      str += `${current.value}<->`;
       current = current.next;
     }
     console.log(str + "NULL");
@@ -185,24 +155,22 @@ class LinkedList {
 
   reverse() {
     let current = this.head;
-    let temp = null;
+    let prev = null;
 
     while (current) {
-      temp = current.prev;
-      current.prev = current.next; // <-- swap prev and next
-      current.next = temp; // <-- swap next and prev
-      current = current.prev; // <-- move to next (which is previous)
+      let nextNode = current.next;
+      current.next = prev;
+      current.prev = nextNode;
+      prev = current;
+      current = nextNode;
     }
 
-    if (temp) {
-      this.tail = this.head;
-      this.head = temp.prev; // <-- update head
-    }
+    [this.head, this.tail] = [this.tail, this.head];
   }
 
   toLinkedList(arr) {
     for (let value of arr) {
-      this.addLast(value); // <-- fixed typo: AddLast -> addLast
+      this.addLast(value);
     }
   }
 
@@ -219,21 +187,51 @@ class LinkedList {
 
     return slow.value;
   }
+
+  removeMid() {
+    if (!this.head || !this.head.next) return this.removeTop();
+
+    let slow = this.head;
+    let fast = this.head;
+
+    while (fast && fast.next) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    if (slow === this.head) return this.removeTop();
+    if (slow === this.tail) return this.removeLast();
+
+    slow.prev.next = slow.next;
+    slow.next.prev = slow.prev;
+  }
+
+  NthNode(n) {
+    if (n < 0 || n >= this.size()) {
+      console.log("Invalid index");
+      return;
+    }
+
+    let current = this.head;
+    for (let i = 0; i < n; i++) {
+      current = current.next;
+    }
+    return current.value;
+  }
 }
 
-// Usage Example
-const linkedlist = new LinkedList();
-linkedlist.addFirst(5);      // 5
-linkedlist.addFirst(3);      // 3 <-> 5
-linkedlist.addFirst(8);      // 8 <-> 3 <-> 5
-linkedlist.addLast(6);       // 8 <-> 3 <-> 5 <-> 6
-linkedlist.removeByValue(3); // removes 3
+const dll = new DoublyLinkedList();
+dll.addFirst(5);
+dll.addFirst(3);
+dll.addFirst(8);
+dll.addLast(6);
+dll.deleteValue(3);
 
 console.log("Original list:");
-linkedlist.print();
+dll.print();
 
-linkedlist.reverse();
+dll.reverse();
 console.log("Reversed list:");
-linkedlist.print();
+dll.print();
 
-console.log("Middle value:", linkedlist.findMiddle());
+console.log("Middle value:", dll.findMiddle());

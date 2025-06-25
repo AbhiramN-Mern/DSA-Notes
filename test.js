@@ -132,21 +132,57 @@ class LinkedList{
         }
             console.log(str+" NULL")
     }
+    removeD(){
+        let current=this.head
+        while(current&&current.next){
+            if(current.value==current.next.value){
+                current.next=current.next.next
+            }else{
+            current=current.next
+        }
+        }
+    }
+    
+    reverse(){
+        let prev=null
+        let current=this.head
+        while(current){
+            let nextnode=current.next
+            current.next=prev
+            prev=current
+            current=nextnode
+        }
+        this.head=prev
+    }
+     removeMid(){
+        if(!this.head)return
+        let slow=this.head
+        let fast=this.head
+        let prev=null
+        while(fast&&fast.next){
+            prev=slow
+            slow=slow.next
+            fast=fast.next.next
+        }
+        prev.next=slow.next
+    }
 }
 let list=new LinkedList()
 list.addFirst(5)
 list.addFirst(15)
-list.addLast(20)
+list.addLast(40)
 list.addLast(40)
 
 list.addLast(30)
 list.deleteAt(1)
 // list.deletevalue(20)
 list.sum()
+list.removeD()
 console.log(list.middle())
-console.log(list.NthNode(6))
+console.log(list.NthNode(1))
 
 
 // list.deleteLast()
 // list.deletefirst()
+list.reverse()
 list.Print()

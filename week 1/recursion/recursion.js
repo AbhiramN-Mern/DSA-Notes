@@ -86,12 +86,6 @@ function fib(num) {
 
 
 
-//function to revers the value of a string...
-function reverse(string) {
-    if(string.length <= 1) return string;
-    return reverse(string.slice(1)) + string[0];
-}
-
 
 
 
@@ -203,4 +197,22 @@ if (arr.length == index) return second
     }
 }
 console.log(findm([7,4,3,5,8,9]))
+
+
+function removeL(str){
+    if(str.length==0)return ""
+    
+    let firstChar=str[0]=="L" ? "":str[0]
+    return firstChar+removeL(str.slice(1))
+}
+const result=removeL('HELLO WORLD')
+console.log(result)
+
+
+//function to revers the value of a string...
+function reverse(string) {
+    if(string.length <= 1) return string;
+    return reverse(string.slice(1)) + string[0];
+}
+
 

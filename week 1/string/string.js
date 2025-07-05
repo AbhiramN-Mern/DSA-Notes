@@ -99,3 +99,20 @@ function titleCase(str) {
 }
 
 console.log(titleCase('abhi ram'))
+
+
+// Convert "APPLE" to "A-pp-ppp-llll-eeeee"
+
+let str="apple"
+function convert(string){
+let arr=str.split('')
+let result=[]
+for(let i=0;i<arr.length;i++){
+    for(let j=0;j<=i;j++){
+        result.push(arr[i])
+    }
+    result.push("-")
+}
+ return result.join("")
+}
+console.log(convert(str))

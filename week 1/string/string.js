@@ -103,7 +103,7 @@ console.log(titleCase('abhi ram'))
 
 // Convert "APPLE" to "A-pp-ppp-llll-eeeee"
 
-let str="apple"
+let str1="apple"
 function convert(string){
 let arr=str.split('')
 let result=[]
@@ -115,4 +115,4 @@ for(let i=0;i<arr.length;i++){
 }
  return result.join("")
 }
-console.log(convert(str))
+console.log(convert(str1))

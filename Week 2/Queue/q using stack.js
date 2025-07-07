@@ -1,7 +1,7 @@
 class QueueUsingTwoStacks {
     constructor() {
         this.inStack = [];  // for enqueue
-        this.outStack = []; // for dequeue
+        this.outStack = []; //  for dequeue
     }
 
     enqueue(val) {

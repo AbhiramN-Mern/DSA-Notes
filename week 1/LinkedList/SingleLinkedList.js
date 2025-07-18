@@ -178,7 +178,7 @@ class LinkedList {
         }
     }
 
-  findMiddle() {
+  findMiddle() {    
     if (!this.head) return null;
 
     let slow = this.head;

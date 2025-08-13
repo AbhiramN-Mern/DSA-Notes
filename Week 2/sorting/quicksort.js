@@ -14,4 +14,4 @@ function quicksort(arr){
     }
     return [...quicksort(left),value,...quicksort(right)]
 }
-console.log(quicksort([10,50,20,40]))
+console.log(quicksort([10,50,5,40]))

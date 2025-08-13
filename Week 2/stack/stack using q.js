@@ -1,21 +1,27 @@
-class StackUsingQueue {
-    constructor() {
-        this.q = [];
+class stack{
+    constructor(){
+        this.queu=[]
     }
-
-    push(val) {
-        this.q.push(val);
-        for (let i = 0; i < this.q.length - 1; i++) {
-            this.q.push(this.q.shift());
+    push(value){
+        this.queu.push(value)
+        let size=this.queu.length
+        while(size>1){
+            this.queu.push(this.queu.shift())
+            size--
         }
     }
-
-    pop() {
-        if (this.q.length === 0) return "Underflow";
-        return this.q.shift();
+    pop(){
+        this.queu.shift()
     }
-
-    display() {
-        console.log(this.q.join(" -> "));
+    peek(){
+        console.log(this.queu[0])
+    }
+    display(){
+        console.log(this.queu.join(' -'))
     }
 }
+let s=new stack
+s.push(10)
+s.push(20)
+s.peek()
+s.display()
